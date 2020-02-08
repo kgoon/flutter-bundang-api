@@ -8,7 +8,6 @@
     <sessions-enabled>true</sessions-enabled>
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/classes/logging.properties"/>
-<!--        <property name="cloudsql" value="jdbc:mysql://google/${sql.database}?useSSL=false&amp;cloudSqlInstance=${sql.connection_name}&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;user=${sql.user}&amp;password=${sql.password}" />-->
     </system-properties>
     <env-variables>
         <env-var name="SERVICE__NAME" value="FlutterBundangStudy"/>

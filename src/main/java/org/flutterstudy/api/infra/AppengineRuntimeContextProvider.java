@@ -26,7 +26,7 @@ public class AppengineRuntimeContextProvider implements ServiceRuntimeContextPro
 
 		if(defaultVersion.equals(currentVersion)){
 			phase = RuntimeContextPhase.RELEASE_ACTIVE;
-		}else if(currentVersion.equals("test")){
+		}else if(currentVersion.equals("dev")){
 			phase = RuntimeContextPhase.TEST_DEV;
 		}else if(currentVersion.contains("test")){
 			phase = RuntimeContextPhase.TEST_DEV;
