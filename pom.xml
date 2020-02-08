@@ -22,7 +22,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <app.id>flutter-study-api</app.id>
-        <app.version>dev</app.version>
+        <app.version>local</app.version>
         <app.promote>false</app.promote>
         <sql.database>master</sql.database>
         <sql.user>root</sql.user>
