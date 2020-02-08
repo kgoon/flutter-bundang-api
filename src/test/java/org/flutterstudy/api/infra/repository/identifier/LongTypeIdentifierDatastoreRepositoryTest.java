@@ -1,6 +1,6 @@
 package org.flutterstudy.api.infra.repository.identifier;
 
-import org.flutterstudy.api.domain.user.User;
+import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.test.util.LocalDatastoreExtension;
 import org.flutterstudy.api.test.util.ObjectifyExtension;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,8 +26,8 @@ class LongTypeIdentifierDatastoreRepositoryTest {
 
 	@Test
 	void create() {
-		Long firstId = repository.create(User.class);
-		Long secondId = repository.create(User.class);
+		Long firstId = repository.create(UserBase.class);
+		Long secondId = repository.create(UserBase.class);
 
 		assertThat(firstId).isNotNull();
 		assertThat(firstId).isNotEqualTo(secondId);

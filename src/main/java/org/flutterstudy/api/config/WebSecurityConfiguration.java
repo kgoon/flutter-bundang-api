@@ -2,8 +2,8 @@ package org.flutterstudy.api.config;
 
 
 import lombok.AllArgsConstructor;
-import org.flutterstudy.api.config.security.JwtAuthenticationFilter;
-import org.flutterstudy.api.service.cookie.JwtCookieHandler;
+import org.flutterstudy.api.config.security.AuthenticationTokenFilter;
+import org.flutterstudy.api.config.security.AuthenticationTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final JwtCookieHandler jwtCookieHandler;
+    private final AuthenticationTokenProvider tokenProvider;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -30,7 +30,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/user/logout").hasRole("USER")
                 .anyRequest().permitAll()
             .and()
-            .addFilterBefore(new JwtAuthenticationFilter(jwtCookieHandler), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(new AuthenticationTokenFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

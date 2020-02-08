@@ -1,8 +1,7 @@
 package org.flutterstudy.api.config.security;
 
 import io.jsonwebtoken.JwtException;
-import org.flutterstudy.api.service.cookie.JwtCookieHandler;
-import org.flutterstudy.api.service.exception.NotFoundJwtCookie;
+import org.flutterstudy.api.service.exception.NotFoundToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -12,15 +11,15 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JwtAuthenticationFilter extends GenericFilterBean {
+public class AuthenticationTokenFilter extends GenericFilterBean {
 
-    private JwtCookieHandler jwtCookieHandler;
+    private static final String AUTH_TOKEN_HEADER = "Authorization";
+    private AuthenticationTokenProvider tokenProvider;
 
-    public JwtAuthenticationFilter(JwtCookieHandler jwtCookieHandler) {
-        this.jwtCookieHandler = jwtCookieHandler;
+    public AuthenticationTokenFilter(AuthenticationTokenProvider tokenProvider) {
+        this.tokenProvider = tokenProvider;
     }
 
     /**
@@ -29,18 +28,26 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         try {
-            UserClaims userClaims = jwtCookieHandler.readToken(((HttpServletRequest) request).getCookies());
+            UserClaims userClaims = tokenProvider.parse(readToken((HttpServletRequest) request));
             if (userClaims != null && userClaims.isValidate()) {
                 Authentication auth = userClaims.getAuthentication();
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
-        } catch (NotFoundJwtCookie e){
+        } catch (NotFoundToken e){
             // do nothing (비로그인 요청)
-        } catch (JwtException e) {
+        } catch (InvalidTokenException e) {
             // 비밀키 변경, 유효기간 초과 등의 이유로 토큰이 유효하지 않을 경우 쿠키 삭제
-            ((HttpServletResponse) response).addCookie(jwtCookieHandler.delete());
         }
 
         filterChain.doFilter(request, response);
+    }
+    
+    private String readToken(HttpServletRequest request) throws NotFoundToken{
+        String token = request.getHeader(AUTH_TOKEN_HEADER);
+        if(token == null){
+            throw new NotFoundToken();
+        }
+
+        return token;
     }
 }

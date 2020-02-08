@@ -4,9 +4,9 @@ import lombok.Value;
 
 @Value
 public class RegisterFormData {
-	String userName;
-
 	String email;
 
 	String password;
+
+	String birth;
 }

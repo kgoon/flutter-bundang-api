@@ -1,45 +1,85 @@
 package org.flutterstudy.api.domain.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.flutterstudy.api.domain.AggregateRoot;
+import org.flutterstudy.api.domain.user.entity.UserBase;
+import org.flutterstudy.api.domain.user.entity.UserIdentifier;
+import org.flutterstudy.api.domain.user.enums.UserIdentifierType;
 import org.flutterstudy.api.domain.user.enums.UserRole;
+import org.flutterstudy.api.model.EmailAddress;
 
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 
-@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class User {
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class User implements AggregateRoot {
 
-    private Long id;
+    UserBase base;
 
-    private String email;
+    Set<UserIdentifier> identifiers;
 
-    private String userName;
-
-    @JsonIgnore
-    private String password;
-
-    private Set<UserRole> roles = EnumSet.noneOf(UserRole.class);
-
-    public User(long id, String email, String userName, String password) {
-        this.id = id;
-        this.email = email;
-        this.userName = userName;
-        this.password = password;
+    public List<Object> getEntities(){
+        List<Object> entities = new ArrayList<>();
+        entities.addAll(identifiers);
+        entities.add(base);
+        return entities;
     }
 
-    public void addRole(UserRole role) {
-        roles.add(role);
+    public String getPassword() {
+        return base.getPassword();
     }
 
-    public boolean hasRole(UserRole role) {
-        return roles.contains(role);
+    public long getPrimaryId() {
+        return base.getPrimaryId();
     }
 
-    public void deleteRole(UserRole role) {
-        roles.remove(role);
+    public Set<UserRole> getRoles() {
+        return base.getRoles();
+    }
+
+    public void addRole(UserRole testRole) {
+        base.addRole(testRole);
+    }
+
+    public static User of(UserBase base){
+        User user = new User();
+        user.base = base;
+        return user;
+    }
+
+    public static UserBuilder builder(Long primaryId, String birth){
+        return new UserBuilder(primaryId, birth);
+    }
+
+    public static class  UserBuilder {
+        Long primaryId;
+
+        String birth;
+
+        Set<UserIdentifier> identifiers;
+        private String password;
+
+        UserBuilder(Long primaryId, String birth) {
+            this.primaryId = primaryId;
+            this.birth = birth;
+            this.identifiers = new HashSet<>();
+        }
+
+        public UserBuilder addIdentifier(EmailAddress email, String password) {
+            this.identifiers.add(new UserIdentifier(UserIdentifierType.EMAIL, email.getValue(), this.primaryId));
+            this.password = password;
+            return this;
+        }
+
+        public User build() {
+            UserBase userBase = new UserBase(primaryId, birth);
+            userBase.setPassword(this.password);
+
+            return new User(userBase, identifiers);
+        }
+
     }
 }
+

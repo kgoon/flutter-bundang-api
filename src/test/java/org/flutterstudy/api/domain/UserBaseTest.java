@@ -1,19 +1,19 @@
 package org.flutterstudy.api.domain;
 
 import org.flutterstudy.api.domain.user.enums.UserRole;
-import org.flutterstudy.api.domain.user.User;
+import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserTest {
+public class UserBaseTest {
 
-    private User testUser;
+    private UserBase testUser;
 
     @BeforeEach
     public void prepare(){
-        this.testUser = new User(101L, "test@kkongtents.com", "tester", "password");
+        this.testUser = new UserBase(101L, "password");
     }
 
     @Test
@@ -27,7 +27,7 @@ public class UserTest {
     public void hasRole(){
         testUser.addRole(UserRole.STAFF);
         assertThat(testUser.hasRole(UserRole.STAFF)).isTrue();
-        assertThat(testUser.hasRole(UserRole.USER)).isFalse();
+        assertThat(testUser.hasRole(UserRole.USER)).isTrue();
     }
 
     @Test

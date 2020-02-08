@@ -1,20 +1,21 @@
-package org.flutterstudy.api.controller.rest;
+package org.flutterstudy.api.controller;
 
+import org.flutterstudy.api.config.security.AuthenticationTokenProvider;
+import org.flutterstudy.api.config.security.JwtTokenProvider;
 import org.flutterstudy.api.domain.user.User;
+import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.config.security.AuthenticationUser;
+import org.flutterstudy.api.model.dto.AuthenticationToken;
 import org.flutterstudy.api.model.dto.LoginRequest;
 import org.flutterstudy.api.model.dto.RegisterFormData;
 import org.flutterstudy.api.domain.user.enums.UserRole;
 import org.flutterstudy.api.config.security.annotations.CurrentUser;
-import org.flutterstudy.api.service.UserService;
+import org.flutterstudy.api.service.user.UserService;
 import lombok.AllArgsConstructor;
-import org.flutterstudy.api.service.cookie.JwtCookieHandler;
-import org.flutterstudy.api.service.exception.NotFoundMatchedUser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +25,7 @@ import java.util.Map;
 @RequestMapping("/api/user")
 public class UserController {
 
-	private JwtCookieHandler jwtCookieHandler;
+	private AuthenticationTokenProvider authTokenProvider;
 
 	private UserService userService;
 
@@ -35,15 +36,14 @@ public class UserController {
 
 
 	@PostMapping(value = "/register")
-	ResponseEntity<User> register(RegisterFormData registerForm){
-
+	ResponseEntity<AuthenticationToken> register(RegisterFormData registerForm){
+		// TODO : 도메인이 서비스 밖으로 나오지 않도록 수정
 		User user = userService.register(registerForm);
-
-		return ResponseEntity.ok(user);
+		return ResponseEntity.ok(authTokenProvider.create(user));
 	}
 
 	@GetMapping("/")
-	ResponseEntity<Model> home(@CurrentUser AuthenticationUser user, Model model) throws UnsupportedEncodingException {
+	ResponseEntity<Model> home(@CurrentUser AuthenticationUser user, Model model){
 
 		if (user != null) {
 			model.addAttribute("user_info", user.getId());
@@ -53,15 +53,6 @@ public class UserController {
 		return ResponseEntity.ok(model);
 	}
 
-	@PutMapping(value = "/{userId}/role")
-	ResponseEntity<User> appendRole(
-			@PathVariable Long userId,
-			@RequestParam(name = "roleName") UserRole role){
-
-		User user = userService.appendRole(userId, role);
-		return ResponseEntity.ok(user);
-	}
-
 	@GetMapping(value = "/email/exist")
 	ResponseEntity<Map<String, Boolean>> isExistEmail(){
 		Map<String, Boolean> result = new HashMap<>();
@@ -69,21 +60,7 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/login")
-	public String login(LoginRequest loginRequest, HttpServletResponse httpServletResponse) throws UnsupportedEncodingException {
-		User user = null;
-		try {
-			user = userService.getMatchedUser(loginRequest);
-		} catch (NotFoundMatchedUser e) {
-			return "redirect:/login";
-		}
-
-		httpServletResponse.addCookie(jwtCookieHandler.make(user));
-		return "redirect:/";
-	}
-
-	@GetMapping(value = "/logout")
-	public String logout(HttpServletResponse httpServletResponse){
-		httpServletResponse.addCookie(jwtCookieHandler.delete());
-		return "redirect:/";
+	ResponseEntity<AuthenticationToken> login(LoginRequest loginRequest) throws UnsupportedEncodingException {
+		return ResponseEntity.ok(userService.getAuthToken(loginRequest));
 	}
 }
