@@ -43,7 +43,7 @@ public class UserService {
     public User register(RegisterFormData registerForm) {
         Optional<User> existUser = userRepository.findByIdentifier(new EmailAddress(registerForm.getEmail()));
         if(existUser.isPresent()){
-            throw new AlreadyExistUser();
+            throw new AlreadyExistUser("Already exist identifier for user : " + registerForm.getEmail());
         }
 
         User user = User.builder(identifierProvider.create(UserBase.class), registerForm.getBirth())
