@@ -4,6 +4,3 @@ spring:
   jackson:
     mapper:
       DEFAULT_VIEW_INCLUSION: true
-
-app.security.jwt.private-key: agt1fmZyZWVyaWRlcnIrCxILX2FoX1NFU1NJT0
-app.security.owner.accessToken: NFQ1VSSVRZX1NBVkVEX1JFUVVFU1RzcgBBb3
