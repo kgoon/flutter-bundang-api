@@ -32,11 +32,6 @@ public class UserController {
 
 	private UserService userService;
 
-	@GetMapping(value = "/hello")
-	ResponseEntity<String> hello(){
-		return ResponseEntity.ok("Hello!!");
-	}
-
 
 	@PostMapping(value = "/register")
 	ResponseEntity<AuthenticationToken> register(RegisterFormData registerForm){
@@ -45,16 +40,16 @@ public class UserController {
 		return ResponseEntity.ok(authTokenProvider.create(user));
 	}
 
-	@GetMapping("/")
-	ResponseEntity<Model> home(@CurrentUser AuthenticationUser user, Model model){
-
-		if (user != null) {
-			model.addAttribute("user_info", user.getId());
-			model.addAttribute("user_email", user.getUsername());
-		}
-
-		return ResponseEntity.ok(model);
-	}
+//	@GetMapping("/")
+//	ResponseEntity<Model> home(@CurrentUser AuthenticationUser user, Model model){
+//
+//		if (user != null) {
+//			model.addAttribute("user_info", user.getId());
+//			model.addAttribute("user_email", user.getUsername());
+//		}
+//
+//		return ResponseEntity.ok(model);
+//	}
 
 	@GetMapping(value = "/email/exist")
 	ResponseEntity<SimpleBooleanResponse> isExistEmail(@RequestParam("email") EmailAddress email){
