@@ -81,6 +81,12 @@
             <groupId>com.googlecode.objectify</groupId>
             <artifactId>objectify</artifactId>
             <version>6.0.6</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.annotation</groupId>
+                    <artifactId>javax.annotation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Exclude any jul-to-slf4j : guide from google gloud -->
@@ -112,7 +118,13 @@
         <dependency>
             <groupId>com.google.cloud</groupId>
             <artifactId>google-cloud-storage</artifactId>
-            <version>1.64.0</version>
+            <version>1.101.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.annotation</groupId>
+                    <artifactId>javax.annotation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- For Working with Json Web Tokens (JWT) -->
