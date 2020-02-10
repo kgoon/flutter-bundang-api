@@ -16,7 +16,7 @@
         <jjwt.version>0.9.0</jjwt.version>
         <jackson.version>2.8.0</jackson.version>
         <appengine.sdk.version>1.9.78</appengine.sdk.version>
-        <spring.boot.version>2.1.0.RELEASE</spring.boot.version>
+        <spring.boot.version>2.2.0.RELEASE</spring.boot.version>
         <junit-platform.version>5.3.1</junit-platform.version>
         <java.version>8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>

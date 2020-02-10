@@ -3,13 +3,12 @@ package org.flutterstudy.api.config.security;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.flutterstudy.api.config.security.properties.SecurityConfigure;
 import org.flutterstudy.api.domain.user.User;
-import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.model.dto.AuthenticationToken;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 @Component
@@ -19,9 +18,12 @@ public class JwtTokenProvider implements AuthenticationTokenProvider{
 
     private final String secretKey;
 
-    public JwtTokenProvider(
-            @Value("${app.security.jwt.private-key}") String secretKey
-    ) {
+    @Autowired
+    public JwtTokenProvider(SecurityConfigure securityConfigure) {
+        this(securityConfigure.getJwt().getSecureKey());
+    }
+
+    public JwtTokenProvider(String secretKey){
         this.secretKey = secretKey;
     }
 
