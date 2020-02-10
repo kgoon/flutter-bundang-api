@@ -5,11 +5,14 @@ import org.flutterstudy.api.config.security.JwtTokenProvider;
 import org.flutterstudy.api.domain.user.User;
 import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.config.security.AuthenticationUser;
+import org.flutterstudy.api.domain.user.entity.UserIdentifier;
+import org.flutterstudy.api.model.EmailAddress;
 import org.flutterstudy.api.model.dto.AuthenticationToken;
 import org.flutterstudy.api.model.dto.LoginRequest;
 import org.flutterstudy.api.model.dto.RegisterFormData;
 import org.flutterstudy.api.domain.user.enums.UserRole;
 import org.flutterstudy.api.config.security.annotations.CurrentUser;
+import org.flutterstudy.api.model.dto.SimpleBooleanResponse;
 import org.flutterstudy.api.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -54,9 +57,9 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/email/exist")
-	ResponseEntity<Map<String, Boolean>> isExistEmail(){
-		Map<String, Boolean> result = new HashMap<>();
-		return ResponseEntity.ok(result);
+	ResponseEntity<SimpleBooleanResponse> isExistEmail(@RequestParam("email") EmailAddress email){
+		boolean result = userService.getIdentifier(email).isPresent();
+		return ResponseEntity.ok(SimpleBooleanResponse.of(result));
 	}
 
 	@PostMapping(value = "/login")

@@ -3,6 +3,7 @@ package org.flutterstudy.api.service.user;
 import org.flutterstudy.api.config.security.AuthenticationTokenProvider;
 import org.flutterstudy.api.domain.user.User;
 import org.flutterstudy.api.domain.user.entity.UserBase;
+import org.flutterstudy.api.domain.user.entity.UserIdentifier;
 import org.flutterstudy.api.model.EmailAddress;
 import org.flutterstudy.api.model.dto.AuthenticationToken;
 import org.flutterstudy.api.model.dto.LoginRequest;
@@ -53,4 +54,8 @@ public class UserService {
 
         return user;
     }
+
+	public Optional<User> getIdentifier(EmailAddress email) {
+        return userRepository.findByIdentifier(email);
+	}
 }
