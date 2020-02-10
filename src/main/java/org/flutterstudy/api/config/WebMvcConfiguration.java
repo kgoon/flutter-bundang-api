@@ -4,7 +4,6 @@ import com.googlecode.objectify.ObjectifyFilter;
 import org.flutterstudy.api.infra.ServiceRuntimeContextProvider;
 import org.flutterstudy.api.infra.listener.ObjectifyListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
