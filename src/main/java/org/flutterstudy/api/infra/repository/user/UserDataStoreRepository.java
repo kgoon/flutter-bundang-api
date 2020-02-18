@@ -30,10 +30,15 @@ public class UserDataStoreRepository implements UserRepository {
 	public Optional<User> findByIdentifier(EmailAddress emailAddress) {
 		try {
 			Long primaryId = identifierRepository.getPrimaryId(UserIdentifierType.EMAIL, emailAddress.getValue());
-			UserBase userBase = ofy().load().type(UserBase.class).id(primaryId).now();
-			return Optional.of(User.of(userBase));
+			return Optional.of(get(primaryId));
 		}catch (NotFoundEntityException e){
 			return Optional.empty();
 		}
+	}
+
+	@Override
+	public User get(Long userId) {
+		UserBase userBase = ofy().load().type(UserBase.class).id(userId).now();
+		return User.of(userBase);
 	}
 }

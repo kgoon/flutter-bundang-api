@@ -3,6 +3,7 @@ package org.flutterstudy.api.domain.user;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.flutterstudy.api.contracts.dto.FileMetaData;
 import org.flutterstudy.api.domain.AggregateRoot;
 import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.domain.user.entity.UserIdentifier;
@@ -16,14 +17,15 @@ import java.util.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class User implements AggregateRoot {
 
-    UserBase base;
+    private UserBase base;
 
-    Set<UserIdentifier> identifiers;
+    private Set<UserIdentifier> identifiers;
 
     public List<Object> getEntities(){
         List<Object> entities = new ArrayList<>();
         entities.addAll(identifiers);
         entities.add(base);
+
         return entities;
     }
 
@@ -41,6 +43,10 @@ public class User implements AggregateRoot {
 
     public void addRole(UserRole testRole) {
         base.addRole(testRole);
+    }
+
+    public void setAvatar(FileMetaData fileData) {
+        this.base.setAvatarFileId(fileData.getId());
     }
 
     public static User of(UserBase base){

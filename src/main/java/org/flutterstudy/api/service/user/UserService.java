@@ -1,6 +1,7 @@
 package org.flutterstudy.api.service.user;
 
 import org.flutterstudy.api.config.security.AuthenticationTokenProvider;
+import org.flutterstudy.api.contracts.dto.FileMetaData;
 import org.flutterstudy.api.domain.user.User;
 import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.contracts.EmailAddress;
@@ -56,5 +57,12 @@ public class UserService {
 
 	public Optional<User> getIdentifier(EmailAddress email) {
         return userRepository.findByIdentifier(email);
+	}
+
+	public void setAvatar(Long userId, FileMetaData file) {
+        User user = userRepository.get(userId);
+        user.setAvatar(file);
+
+        userRepository.save(user);
 	}
 }
