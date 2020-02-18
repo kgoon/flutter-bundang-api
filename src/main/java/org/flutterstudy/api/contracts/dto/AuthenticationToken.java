@@ -1,6 +1,5 @@
-package org.flutterstudy.api.model.dto;
+package org.flutterstudy.api.contracts.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Value;
 
 @Value

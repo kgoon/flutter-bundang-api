@@ -3,7 +3,7 @@ package org.flutterstudy.api.infra.repository.user;
 import org.flutterstudy.api.domain.user.User;
 import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.domain.user.enums.UserIdentifierType;
-import org.flutterstudy.api.model.EmailAddress;
+import org.flutterstudy.api.contracts.EmailAddress;
 import org.flutterstudy.api.repository.NotFoundEntityException;
 import org.flutterstudy.api.repository.UserRepository;
 import org.springframework.stereotype.Repository;

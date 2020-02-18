@@ -8,7 +8,7 @@ import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.domain.user.entity.UserIdentifier;
 import org.flutterstudy.api.domain.user.enums.UserIdentifierType;
 import org.flutterstudy.api.domain.user.enums.UserRole;
-import org.flutterstudy.api.model.EmailAddress;
+import org.flutterstudy.api.contracts.EmailAddress;
 
 import java.util.*;
 

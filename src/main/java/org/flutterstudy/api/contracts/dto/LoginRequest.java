@@ -1,4 +1,4 @@
-package org.flutterstudy.api.model.dto;
+package org.flutterstudy.api.contracts.dto;
 
 import lombok.Data;
 

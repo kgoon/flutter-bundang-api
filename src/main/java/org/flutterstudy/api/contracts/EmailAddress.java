@@ -1,4 +1,4 @@
-package org.flutterstudy.api.model;
+package org.flutterstudy.api.contracts;
 
 import lombok.Value;
 

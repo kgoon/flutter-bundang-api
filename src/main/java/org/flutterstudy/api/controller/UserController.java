@@ -1,27 +1,18 @@
 package org.flutterstudy.api.controller;
 
 import org.flutterstudy.api.config.security.AuthenticationTokenProvider;
-import org.flutterstudy.api.config.security.JwtTokenProvider;
 import org.flutterstudy.api.domain.user.User;
-import org.flutterstudy.api.domain.user.entity.UserBase;
-import org.flutterstudy.api.config.security.AuthenticationUser;
-import org.flutterstudy.api.domain.user.entity.UserIdentifier;
-import org.flutterstudy.api.model.EmailAddress;
-import org.flutterstudy.api.model.dto.AuthenticationToken;
-import org.flutterstudy.api.model.dto.LoginRequest;
-import org.flutterstudy.api.model.dto.RegisterFormData;
-import org.flutterstudy.api.domain.user.enums.UserRole;
-import org.flutterstudy.api.config.security.annotations.CurrentUser;
-import org.flutterstudy.api.model.dto.SimpleBooleanResponse;
+import org.flutterstudy.api.contracts.EmailAddress;
+import org.flutterstudy.api.contracts.dto.AuthenticationToken;
+import org.flutterstudy.api.contracts.dto.LoginRequest;
+import org.flutterstudy.api.contracts.dto.RegisterFormData;
+import org.flutterstudy.api.contracts.dto.SimpleBooleanResponse;
 import org.flutterstudy.api.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
 
 @AllArgsConstructor
 @RestController
