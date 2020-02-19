@@ -23,7 +23,9 @@ public class User implements AggregateRoot {
 
     public List<Object> getEntities(){
         List<Object> entities = new ArrayList<>();
-        entities.addAll(identifiers);
+        if(identifiers != null) {
+            entities.addAll(identifiers);
+        }
         entities.add(base);
 
         return entities;
@@ -57,6 +59,10 @@ public class User implements AggregateRoot {
 
     public static UserBuilder builder(Long primaryId, String birth){
         return new UserBuilder(primaryId, birth);
+    }
+
+    public Long getAvatarFileId() {
+        return base.getAvatarFileId();
     }
 
     public static class  UserBuilder {

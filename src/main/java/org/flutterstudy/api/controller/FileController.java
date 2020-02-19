@@ -6,13 +6,15 @@ import org.flutterstudy.api.config.security.annotations.CurrentUser;
 import org.flutterstudy.api.contracts.dto.FileMetaData;
 import org.flutterstudy.api.contracts.dto.ImageFile;
 import org.flutterstudy.api.contracts.enums.AttachUseType;
-import org.flutterstudy.api.service.FileUploadService;
+import org.flutterstudy.api.service.FileService;
 import org.flutterstudy.api.service.user.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 
@@ -21,13 +23,13 @@ import java.io.IOException;
 @RequestMapping("/api/file")
 public class FileController {
 
-	FileUploadService fileUploadService;
+	FileService fileService;
 
 	UserService userService;
 
 	@PostMapping("/avatar")
 	ResponseEntity<?> uploadUserAvatar(
-			@CurrentUser AuthenticationUser user,
+			@ApiIgnore @CurrentUser AuthenticationUser user,
 			@Valid ImageFile imageFile,
 			BindingResult result
 	) throws IOException {
@@ -37,11 +39,12 @@ public class FileController {
 
 		MultipartFile file = imageFile.getFile();
 
-		FileMetaData fileMetaData = fileUploadService
+		FileMetaData fileMetaData = fileService
 				.uploadUserFile(
 						user.getId(),
 						AttachUseType.AVATAR,
 						file.getOriginalFilename(),
+						file.getContentType(),
 						file.getBytes()
 				);
 
@@ -51,7 +54,9 @@ public class FileController {
 	}
 
 	@GetMapping("/avatar/{userId}")
-	ResponseEntity<?> getUserAvatar(@PathVariable Long userId){
-		return ResponseEntity.ok().build();
+	void getUserAvatar(@PathVariable Long userId, HttpServletResponse response) throws IOException {
+		Long fileId = userService.getAvatarFileId(userId);
+		String uri = fileService.getServeUri(fileId);
+		response.sendRedirect(uri);
 	}
 }

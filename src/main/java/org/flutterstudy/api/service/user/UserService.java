@@ -65,4 +65,10 @@ public class UserService {
 
         userRepository.save(user);
 	}
+
+
+	public Long getAvatarFileId(Long userId) {
+		User user = userRepository.get(userId);
+		return user.getAvatarFileId();
+	}
 }

@@ -14,3 +14,8 @@ gcloud beta emulators datastore start --data-dir=target/api-1.0-SNAPSHOT
 ````
 export DATASTORE_EMULATOR_HOST=localhost:8081
 ````
+### 클라우드 자원 접근
+클라우드 자원 접근을 위한 로컬변수 설정
+````
+export GOOGLE_APPLICATION_CREDENTIALS="[PROJECT PATH]/local-access-key.json"
+````

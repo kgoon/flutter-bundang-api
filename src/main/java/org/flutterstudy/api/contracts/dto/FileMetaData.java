@@ -13,23 +13,25 @@ import org.flutterstudy.api.contracts.enums.StorageType;
  */
 @Getter
 @Entity
-@RequiredArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 public class FileMetaData {
 
 	@Id
-	private final Long id;
+	private Long id;
 
 	@Index
-	private final  Long ownerId;
+	private Long ownerId;
 
-	private final  AttachUseType useType;
+	private AttachUseType useType;
 
-	private final  String fileName;
+	private String fileName;
 
-	private final  long size;
+	private String contentType;
+
+	private long size;
 
 	@JsonIgnore
-	private StorageType storageType = StorageType.CLOUD_STORAGE_USER_BUCKET; //default;
+	private StorageType storageType; //default;
 
 }

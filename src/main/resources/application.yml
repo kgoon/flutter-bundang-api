@@ -7,4 +7,4 @@ spring:
 
 gcloud:
   bucket:
-    name: freerider.appspot.com
+    name: flutter-study-api.appspot.com

@@ -2,7 +2,6 @@ package org.flutterstudy.api.infra.adapter;
 
 import com.google.cloud.storage.*;
 import org.flutterstudy.api.contracts.dto.FileMetaData;
-import org.flutterstudy.api.contracts.enums.AttachUseType;
 import org.flutterstudy.api.infra.ServiceRuntimeContextProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -29,7 +28,6 @@ public class GoogleCloudStorageAdapter implements FileStorageAdapter {
 				.append(this.userFileBucketName)
 				.append(PATH_DIVIDER)
 				.append(this.namespacePathPrefix)
-				.append(PATH_DIVIDER)
 				.toString();
 	}
 
@@ -38,10 +36,12 @@ public class GoogleCloudStorageAdapter implements FileStorageAdapter {
 		List<Acl> aclList = new ArrayList<>(); //Access Role List
 		aclList.add(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER));
 
-		Storage storage = StorageOptions.getDefaultInstance().getService();
 		String objectName = this.namespacePathPrefix + PATH_DIVIDER + getPath(file);
-				BlobInfo blobInfo = BlobInfo.newBuilder(this.userFileBucketName, objectName)
+		Storage storage = StorageOptions.getDefaultInstance().getService();
+		BlobInfo blobInfo = BlobInfo.newBuilder(this.userFileBucketName, objectName)
 				.setAcl(aclList)
+				.setContentType(file.getContentType())
+				.setCacheControl("public, max-age=31536000")
 				.build();
 
 		Blob blob = storage.create(blobInfo, bytes);
