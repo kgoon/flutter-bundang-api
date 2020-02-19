@@ -28,6 +28,9 @@ public class UserBase {
 
     private String birth;
 
+    @Setter
+    private Long avatarFileId;
+
     @JsonIgnore
     @Setter
     private String password;

@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.flutterstudy.api.config.security.properties.SecurityConfigure;
 import org.flutterstudy.api.domain.user.User;
-import org.flutterstudy.api.model.dto.AuthenticationToken;
+import org.flutterstudy.api.contracts.dto.AuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

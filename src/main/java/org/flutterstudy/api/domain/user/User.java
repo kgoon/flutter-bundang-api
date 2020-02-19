@@ -3,12 +3,13 @@ package org.flutterstudy.api.domain.user;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.flutterstudy.api.contracts.dto.FileMetaData;
 import org.flutterstudy.api.domain.AggregateRoot;
 import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.domain.user.entity.UserIdentifier;
 import org.flutterstudy.api.domain.user.enums.UserIdentifierType;
 import org.flutterstudy.api.domain.user.enums.UserRole;
-import org.flutterstudy.api.model.EmailAddress;
+import org.flutterstudy.api.contracts.EmailAddress;
 
 import java.util.*;
 
@@ -16,14 +17,17 @@ import java.util.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class User implements AggregateRoot {
 
-    UserBase base;
+    private UserBase base;
 
-    Set<UserIdentifier> identifiers;
+    private Set<UserIdentifier> identifiers;
 
     public List<Object> getEntities(){
         List<Object> entities = new ArrayList<>();
-        entities.addAll(identifiers);
+        if(identifiers != null) {
+            entities.addAll(identifiers);
+        }
         entities.add(base);
+
         return entities;
     }
 
@@ -43,6 +47,10 @@ public class User implements AggregateRoot {
         base.addRole(testRole);
     }
 
+    public void setAvatar(FileMetaData fileData) {
+        this.base.setAvatarFileId(fileData.getId());
+    }
+
     public static User of(UserBase base){
         User user = new User();
         user.base = base;
@@ -51,6 +59,10 @@ public class User implements AggregateRoot {
 
     public static UserBuilder builder(Long primaryId, String birth){
         return new UserBuilder(primaryId, birth);
+    }
+
+    public Long getAvatarFileId() {
+        return base.getAvatarFileId();
     }
 
     public static class  UserBuilder {

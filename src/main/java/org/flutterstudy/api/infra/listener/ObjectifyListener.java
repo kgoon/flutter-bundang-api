@@ -4,6 +4,7 @@ import com.google.appengine.api.NamespaceManager;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
+import org.flutterstudy.api.contracts.dto.FileMetaData;
 import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.domain.user.entity.UserIdentifier;
 import org.flutterstudy.api.infra.RuntimeContextPhase;
@@ -26,6 +27,7 @@ public class ObjectifyListener implements ServletContextListener {
 		ObjectifyService.register(LongTypeIdentifier.class);
 		ObjectifyService.register(UserBase.class);
 		ObjectifyService.register(UserIdentifier.class);
+		ObjectifyService.register(FileMetaData.class);
 	}
 
 	@Override
