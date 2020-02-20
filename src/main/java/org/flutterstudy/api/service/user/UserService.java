@@ -1,13 +1,10 @@
 package org.flutterstudy.api.service.user;
 
 import org.flutterstudy.api.config.security.AuthenticationTokenProvider;
-import org.flutterstudy.api.contracts.dto.FileMetaData;
+import org.flutterstudy.api.contracts.dto.*;
 import org.flutterstudy.api.domain.user.User;
 import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.contracts.EmailAddress;
-import org.flutterstudy.api.contracts.dto.AuthenticationToken;
-import org.flutterstudy.api.contracts.dto.LoginRequest;
-import org.flutterstudy.api.contracts.dto.RegisterFormData;
 import org.flutterstudy.api.repository.UserRepository;
 import org.flutterstudy.api.service.exception.AlreadyExistUser;
 import org.flutterstudy.api.service.exception.NotFoundMatchedUser;
@@ -59,6 +56,10 @@ public class UserService {
         return userRepository.findByIdentifier(email);
 	}
 
+	public Optional<User> getIdentifier(UserName userName) {
+        return userRepository.findByIdentifier(userName);
+	}
+
 	public void setAvatar(Long userId, FileMetaData file) {
         User user = userRepository.get(userId);
         user.setAvatar(file);
@@ -70,5 +71,12 @@ public class UserService {
 	public Long getAvatarFileId(Long userId) {
 		User user = userRepository.get(userId);
 		return user.getAvatarFileId();
+	}
+
+	public void setUserName(Long userId, UserName userName) {
+		User user = userRepository.get(userId);
+		user.setName(userName);
+
+		userRepository.save(user);
 	}
 }

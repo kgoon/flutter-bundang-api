@@ -21,6 +21,8 @@ public class UserIdentifier {
     @Index
     Long primaryId;
 
+    boolean dropout;
+
     public UserIdentifier(UserIdentifierType idType, String value, Long userPrimaryId){
         idLiteral = getLiteral(idType, value);
         primaryId = userPrimaryId;
@@ -28,5 +30,13 @@ public class UserIdentifier {
 
     public static String getLiteral(UserIdentifierType idType, String value) {
         return idType + DELIMITER + value;
+    }
+
+	public boolean equalsType(UserIdentifierType identifierType) {
+        return idLiteral.startsWith(identifierType.toString());
+	}
+
+    public void setIsDropout(boolean value) {
+        this.dropout = value;
     }
 }

@@ -28,6 +28,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //            .and()
             .authorizeRequests()
                 .antMatchers("/api/user/logout").hasRole("USER")
+                .antMatchers("/api/user/profile/*").hasRole("USER")
+                .antMatchers("/api/user/profile/name/exist").permitAll()
                 .anyRequest().permitAll()
             .and()
             .addFilterBefore(new AuthenticationTokenFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);

@@ -1,17 +1,18 @@
 package org.flutterstudy.api.controller;
 
-import org.flutterstudy.api.config.security.AuthenticationTokenProvider;
-import org.flutterstudy.api.domain.user.User;
-import org.flutterstudy.api.contracts.EmailAddress;
-import org.flutterstudy.api.contracts.dto.AuthenticationToken;
-import org.flutterstudy.api.contracts.dto.LoginRequest;
-import org.flutterstudy.api.contracts.dto.RegisterFormData;
-import org.flutterstudy.api.contracts.dto.SimpleBooleanResponse;
-import org.flutterstudy.api.service.user.UserService;
 import lombok.AllArgsConstructor;
+import org.flutterstudy.api.config.security.AuthenticationTokenProvider;
+import org.flutterstudy.api.config.security.AuthenticationUser;
+import org.flutterstudy.api.config.security.annotations.CurrentUser;
+import org.flutterstudy.api.contracts.EmailAddress;
+import org.flutterstudy.api.contracts.dto.*;
+import org.flutterstudy.api.domain.user.User;
+import org.flutterstudy.api.service.user.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 
 @AllArgsConstructor
@@ -31,16 +32,25 @@ public class UserController {
 		return ResponseEntity.ok(authTokenProvider.create(user));
 	}
 
-//	@GetMapping("/")
-//	ResponseEntity<Model> home(@CurrentUser AuthenticationUser user, Model model){
-//
-//		if (user != null) {
-//			model.addAttribute("user_info", user.getId());
-//			model.addAttribute("user_email", user.getUsername());
-//		}
-//
-//		return ResponseEntity.ok(model);
-//	}
+	@PutMapping(value = "/profile/name")
+	ResponseEntity<?> setUserName(
+			@CurrentUser AuthenticationUser user,
+			@Valid UserName userName,
+			BindingResult result
+	) {
+		if(result.hasErrors()){
+			return ResponseEntity.badRequest().body(result.getFieldError());
+		}
+
+		userService.setUserName(user.getId(), userName);
+		return ResponseEntity.ok(SimpleBooleanResponse.of(true));
+	}
+
+	@GetMapping(value = "/profile/name/exist")
+	ResponseEntity<SimpleBooleanResponse> isExistUserName(String userName){
+		boolean result = userService.getIdentifier(new UserName(userName)).isPresent();
+		return ResponseEntity.ok(SimpleBooleanResponse.of(result));
+	}
 
 	@GetMapping(value = "/email/exist")
 	ResponseEntity<SimpleBooleanResponse> isExistEmail(@RequestParam("email") EmailAddress email){

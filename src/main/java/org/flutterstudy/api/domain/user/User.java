@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.flutterstudy.api.contracts.dto.FileMetaData;
+import org.flutterstudy.api.contracts.dto.UserName;
 import org.flutterstudy.api.domain.AggregateRoot;
 import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.domain.user.entity.UserIdentifier;
@@ -35,7 +36,7 @@ public class User implements AggregateRoot {
         return base.getPassword();
     }
 
-    public long getPrimaryId() {
+    public Long getPrimaryId() {
         return base.getPrimaryId();
     }
 
@@ -63,6 +64,21 @@ public class User implements AggregateRoot {
 
     public Long getAvatarFileId() {
         return base.getAvatarFileId();
+    }
+
+    public void setName(UserName userName) {
+        if(identifiers == null){
+            identifiers = new HashSet<>();
+        }
+
+        identifiers.forEach((identifier) -> {
+            if(identifier.equalsType(UserIdentifierType.USER_NAME)){
+                identifier.setIsDropout(true);
+            }
+        });
+
+        identifiers.add(new UserIdentifier(UserIdentifierType.USER_NAME, userName.getValue(), base.getPrimaryId()));
+        base.setUserName(userName.getValue());
     }
 
     public static class  UserBuilder {

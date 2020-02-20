@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -29,12 +28,12 @@ public class FileController {
 
 	@PostMapping("/avatar")
 	ResponseEntity<?> uploadUserAvatar(
-			@ApiIgnore @CurrentUser AuthenticationUser user,
+			@CurrentUser AuthenticationUser user,
 			@Valid ImageFile imageFile,
 			BindingResult result
 	) throws IOException {
 		if(result.hasErrors()){
-			return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
+			return ResponseEntity.badRequest().body(result.getFieldError());
 		}
 
 		MultipartFile file = imageFile.getFile();

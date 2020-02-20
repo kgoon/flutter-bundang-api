@@ -2,6 +2,7 @@ package org.flutterstudy.api.config.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import lombok.AccessLevel;
 import org.flutterstudy.api.domain.user.enums.UserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,7 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserClaims {
 
     public static String ROLE = "role";
@@ -34,7 +35,6 @@ public class UserClaims {
         if (tempList == null) {
             return roleSet;
         }
-        ;
 
         for (String role : tempList) {
             roleSet.add(UserRole.valueOf(role));
@@ -44,5 +44,9 @@ public class UserClaims {
 
     public boolean isValidate() {
         return !claims.getBody().getExpiration().before(new Date());
+    }
+
+    public static UserClaims of(Jws<Claims> claims){
+        return new UserClaims(claims);
     }
 }
