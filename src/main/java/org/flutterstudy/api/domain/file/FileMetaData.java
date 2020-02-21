@@ -1,4 +1,4 @@
-package org.flutterstudy.api.contracts.dto;
+package org.flutterstudy.api.domain.file;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.annotation.Entity;

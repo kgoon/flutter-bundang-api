@@ -3,7 +3,7 @@ package org.flutterstudy.api.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.flutterstudy.api.domain.user.User;
-import org.flutterstudy.api.contracts.EmailAddress;
+import org.flutterstudy.api.contracts.vo.EmailAddress;
 import org.flutterstudy.api.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -3,8 +3,8 @@ package org.flutterstudy.api.controller;
 import lombok.AllArgsConstructor;
 import org.flutterstudy.api.config.security.AuthenticationUser;
 import org.flutterstudy.api.config.security.annotations.CurrentUser;
-import org.flutterstudy.api.contracts.dto.FileMetaData;
-import org.flutterstudy.api.contracts.dto.ImageFile;
+import org.flutterstudy.api.domain.file.FileMetaData;
+import org.flutterstudy.api.contracts.dto.request.ImageFile;
 import org.flutterstudy.api.contracts.enums.AttachUseType;
 import org.flutterstudy.api.service.FileService;
 import org.flutterstudy.api.service.user.UserService;
@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -29,12 +28,12 @@ public class FileController {
 
 	@PostMapping("/avatar")
 	ResponseEntity<?> uploadUserAvatar(
-			@ApiIgnore @CurrentUser AuthenticationUser user,
+			@CurrentUser AuthenticationUser user,
 			@Valid ImageFile imageFile,
 			BindingResult result
 	) throws IOException {
 		if(result.hasErrors()){
-			return ResponseEntity.badRequest().body(result.getFieldError().getDefaultMessage());
+			return ResponseEntity.badRequest().body(result.getFieldError());
 		}
 
 		MultipartFile file = imageFile.getFile();

@@ -1,6 +1,6 @@
 package org.flutterstudy.api.infra.repository.file;
 
-import org.flutterstudy.api.contracts.dto.FileMetaData;
+import org.flutterstudy.api.domain.file.FileMetaData;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

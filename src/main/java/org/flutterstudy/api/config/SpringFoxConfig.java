@@ -1,5 +1,6 @@
 package org.flutterstudy.api.config;
 
+import org.flutterstudy.api.config.security.AuthenticationUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -14,6 +15,7 @@ public class SpringFoxConfig {
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2)
+				.ignoredParameterTypes(AuthenticationUser.class)
 				.select()
 				.apis(RequestHandlerSelectors.any())
 				.paths(PathSelectors.any())

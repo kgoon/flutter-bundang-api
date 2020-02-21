@@ -1,13 +1,14 @@
 package org.flutterstudy.api.service.user;
 
 import org.flutterstudy.api.config.security.AuthenticationTokenProvider;
-import org.flutterstudy.api.contracts.dto.FileMetaData;
+import org.flutterstudy.api.contracts.dto.request.LoginRequest;
+import org.flutterstudy.api.contracts.dto.request.RegisterFormData;
+import org.flutterstudy.api.contracts.vo.UserName;
+import org.flutterstudy.api.contracts.dto.response.AuthResponse;
+import org.flutterstudy.api.domain.file.FileMetaData;
 import org.flutterstudy.api.domain.user.User;
 import org.flutterstudy.api.domain.user.entity.UserBase;
-import org.flutterstudy.api.contracts.EmailAddress;
-import org.flutterstudy.api.contracts.dto.AuthenticationToken;
-import org.flutterstudy.api.contracts.dto.LoginRequest;
-import org.flutterstudy.api.contracts.dto.RegisterFormData;
+import org.flutterstudy.api.contracts.vo.EmailAddress;
 import org.flutterstudy.api.repository.UserRepository;
 import org.flutterstudy.api.service.exception.AlreadyExistUser;
 import org.flutterstudy.api.service.exception.NotFoundMatchedUser;
@@ -30,7 +31,7 @@ public class UserService {
 
     private final AuthenticationTokenProvider authTokenProvider;
 
-    public AuthenticationToken getAuthToken(LoginRequest loginRequest) {
+    public AuthResponse getAuthToken(LoginRequest loginRequest) {
         User user = userRepository.findByIdentifier(new EmailAddress(loginRequest.getEmail()))
             .orElseThrow(() -> new NotFoundMatchedUser("there is no information about this email. - " + loginRequest.getEmail()));
 
@@ -59,6 +60,10 @@ public class UserService {
         return userRepository.findByIdentifier(email);
 	}
 
+	public Optional<User> getIdentifier(UserName userName) {
+        return userRepository.findByIdentifier(userName);
+	}
+
 	public void setAvatar(Long userId, FileMetaData file) {
         User user = userRepository.get(userId);
         user.setAvatar(file);
@@ -70,5 +75,12 @@ public class UserService {
 	public Long getAvatarFileId(Long userId) {
 		User user = userRepository.get(userId);
 		return user.getAvatarFileId();
+	}
+
+	public void setUserName(Long userId, UserName userName) {
+		User user = userRepository.get(userId);
+		user.setName(userName);
+
+		userRepository.save(user);
 	}
 }
