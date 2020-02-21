@@ -1,7 +1,7 @@
 package org.flutterstudy.api.config.security;
 
 import org.flutterstudy.api.domain.user.User;
-import org.flutterstudy.api.contracts.dto.AuthenticationToken;
+import org.flutterstudy.api.contracts.dto.response.AuthenticationToken;
 
 public interface AuthenticationTokenProvider {
 

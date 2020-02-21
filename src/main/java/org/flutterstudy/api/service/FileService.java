@@ -1,7 +1,7 @@
 package org.flutterstudy.api.service;
 
 import lombok.AllArgsConstructor;
-import org.flutterstudy.api.contracts.dto.FileMetaData;
+import org.flutterstudy.api.domain.file.FileMetaData;
 import org.flutterstudy.api.contracts.enums.AttachUseType;
 import org.flutterstudy.api.contracts.enums.StorageType;
 import org.flutterstudy.api.infra.adapter.FileStorageAdapter;

@@ -1,10 +1,8 @@
 package org.flutterstudy.api.infra.listener;
 
 import com.google.appengine.api.NamespaceManager;
-import com.google.cloud.datastore.DatastoreOptions;
-import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
-import org.flutterstudy.api.contracts.dto.FileMetaData;
+import org.flutterstudy.api.domain.file.FileMetaData;
 import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.domain.user.entity.UserIdentifier;
 import org.flutterstudy.api.infra.RuntimeContextPhase;

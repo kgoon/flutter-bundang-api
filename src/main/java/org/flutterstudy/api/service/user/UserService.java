@@ -1,10 +1,14 @@
 package org.flutterstudy.api.service.user;
 
 import org.flutterstudy.api.config.security.AuthenticationTokenProvider;
-import org.flutterstudy.api.contracts.dto.*;
+import org.flutterstudy.api.contracts.dto.request.LoginRequest;
+import org.flutterstudy.api.contracts.dto.request.RegisterFormData;
+import org.flutterstudy.api.contracts.vo.UserName;
+import org.flutterstudy.api.contracts.dto.response.AuthenticationToken;
+import org.flutterstudy.api.domain.file.FileMetaData;
 import org.flutterstudy.api.domain.user.User;
 import org.flutterstudy.api.domain.user.entity.UserBase;
-import org.flutterstudy.api.contracts.EmailAddress;
+import org.flutterstudy.api.contracts.vo.EmailAddress;
 import org.flutterstudy.api.repository.UserRepository;
 import org.flutterstudy.api.service.exception.AlreadyExistUser;
 import org.flutterstudy.api.service.exception.NotFoundMatchedUser;

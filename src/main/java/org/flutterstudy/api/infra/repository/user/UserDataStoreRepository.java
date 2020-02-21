@@ -1,7 +1,7 @@
 package org.flutterstudy.api.infra.repository.user;
 
-import org.flutterstudy.api.contracts.EmailAddress;
-import org.flutterstudy.api.contracts.dto.UserName;
+import org.flutterstudy.api.contracts.vo.EmailAddress;
+import org.flutterstudy.api.contracts.vo.UserName;
 import org.flutterstudy.api.domain.user.User;
 import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.domain.user.enums.UserIdentifierType;

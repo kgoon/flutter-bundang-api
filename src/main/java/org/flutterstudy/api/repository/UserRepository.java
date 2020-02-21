@@ -1,8 +1,8 @@
 package org.flutterstudy.api.repository;
 
-import org.flutterstudy.api.contracts.dto.UserName;
+import org.flutterstudy.api.contracts.vo.UserName;
 import org.flutterstudy.api.domain.user.User;
-import org.flutterstudy.api.contracts.EmailAddress;
+import org.flutterstudy.api.contracts.vo.EmailAddress;
 
 import java.util.Optional;
 

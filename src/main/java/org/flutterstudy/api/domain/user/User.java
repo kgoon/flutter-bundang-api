@@ -3,14 +3,14 @@ package org.flutterstudy.api.domain.user;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.flutterstudy.api.contracts.dto.FileMetaData;
-import org.flutterstudy.api.contracts.dto.UserName;
+import org.flutterstudy.api.domain.file.FileMetaData;
+import org.flutterstudy.api.contracts.vo.UserName;
 import org.flutterstudy.api.domain.AggregateRoot;
 import org.flutterstudy.api.domain.user.entity.UserBase;
 import org.flutterstudy.api.domain.user.entity.UserIdentifier;
 import org.flutterstudy.api.domain.user.enums.UserIdentifierType;
 import org.flutterstudy.api.domain.user.enums.UserRole;
-import org.flutterstudy.api.contracts.EmailAddress;
+import org.flutterstudy.api.contracts.vo.EmailAddress;
 
 import java.util.*;
 

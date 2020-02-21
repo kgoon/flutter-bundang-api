@@ -1,4 +1,4 @@
-package org.flutterstudy.api.contracts.dto;
+package org.flutterstudy.api.contracts.vo;
 
 import lombok.Value;
 import org.flutterstudy.api.contracts.validator.ValidUserName;

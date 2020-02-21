@@ -1,7 +1,7 @@
 package org.flutterstudy.api.infra.adapter;
 
 import com.google.cloud.storage.*;
-import org.flutterstudy.api.contracts.dto.FileMetaData;
+import org.flutterstudy.api.domain.file.FileMetaData;
 import org.flutterstudy.api.infra.ServiceRuntimeContextProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

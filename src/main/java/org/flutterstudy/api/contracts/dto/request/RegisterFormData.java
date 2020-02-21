@@ -1,4 +1,4 @@
-package org.flutterstudy.api.contracts.dto;
+package org.flutterstudy.api.contracts.dto.request;
 
 import lombok.Value;
 
