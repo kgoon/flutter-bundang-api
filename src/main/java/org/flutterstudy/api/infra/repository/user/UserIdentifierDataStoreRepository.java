@@ -5,6 +5,7 @@ import org.flutterstudy.api.domain.user.enums.UserIdentifierType;
 import org.flutterstudy.api.repository.ExistEntityException;
 import org.flutterstudy.api.repository.NotFoundEntityException;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
@@ -30,4 +31,11 @@ public class UserIdentifierDataStoreRepository{
                 .orElseThrow(() -> new NotFoundEntityException())
                 .getPrimaryId();
     }
+
+	public List<UserIdentifier> findByPrimaryId(Long userId) {
+        return ofy().load()
+                .type(UserIdentifier.class)
+                .filter("primaryId", userId)
+                .list();
+	}
 }

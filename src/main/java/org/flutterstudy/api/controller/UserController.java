@@ -8,7 +8,7 @@ import org.flutterstudy.api.contracts.vo.EmailAddress;
 import org.flutterstudy.api.contracts.dto.request.LoginRequest;
 import org.flutterstudy.api.contracts.dto.request.RegisterFormData;
 import org.flutterstudy.api.contracts.vo.UserName;
-import org.flutterstudy.api.contracts.dto.response.AuthenticationToken;
+import org.flutterstudy.api.contracts.dto.response.AuthResponse;
 import org.flutterstudy.api.contracts.dto.response.SimpleBooleanResponse;
 import org.flutterstudy.api.domain.user.User;
 import org.flutterstudy.api.service.user.UserService;
@@ -30,7 +30,7 @@ public class UserController {
 
 
 	@PostMapping(value = "/register")
-	ResponseEntity<AuthenticationToken> register(RegisterFormData registerForm){
+	ResponseEntity<AuthResponse> register(RegisterFormData registerForm){
 		// TODO : 도메인이 서비스 밖으로 나오지 않도록 수정
 		User user = userService.register(registerForm);
 		return ResponseEntity.ok(authTokenProvider.create(user));
@@ -63,7 +63,7 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/login")
-	ResponseEntity<AuthenticationToken> login(LoginRequest loginRequest) throws UnsupportedEncodingException {
+	ResponseEntity<AuthResponse> login(LoginRequest loginRequest) throws UnsupportedEncodingException {
 		return ResponseEntity.ok(userService.getAuthToken(loginRequest));
 	}
 }

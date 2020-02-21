@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 
 import javax.crypto.SecretKey;
 
+import java.util.Collections;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class JwtTokenProviderTest {
@@ -37,7 +39,7 @@ public class JwtTokenProviderTest {
 
     @Test
     public void createJwt() throws InvalidTokenException {
-        User testUser = User.of(new UserBase(idNumber, testUserPassword));
+        User testUser = User.of(new UserBase(idNumber, testUserPassword), Collections.emptySet());
         testUser.addRole(UserRole.STAFF);
         String jwt = jwtTokenProvider.create(testUser).getToken();
 

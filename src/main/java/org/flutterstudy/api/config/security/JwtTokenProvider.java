@@ -6,7 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.flutterstudy.api.config.security.properties.SecurityConfigure;
 import org.flutterstudy.api.domain.user.User;
-import org.flutterstudy.api.contracts.dto.response.AuthenticationToken;
+import org.flutterstudy.api.contracts.dto.response.AuthResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +39,7 @@ public class JwtTokenProvider implements AuthenticationTokenProvider{
     }
 
     @Override
-    public AuthenticationToken create(User user) {
+    public AuthResponse create(User user) {
         Date now = new Date();
         Claims claims = Jwts.claims();
         claims.setSubject(user.getPrimaryId().toString());
@@ -52,7 +52,21 @@ public class JwtTokenProvider implements AuthenticationTokenProvider{
                 .signWith(key)
                 .compact();
 
-        return new AuthenticationToken(token);
+        AuthResponse.AuthResponseBuilder responseBuilder = AuthResponse.builder();
+        responseBuilder.userId(user.getPrimaryId());
+
+        if(user.getName() != null) {
+            responseBuilder.userName(user.getName());
+        }
+
+        if(user.getEmail() != null) {
+            responseBuilder.email(user.getEmail().getValue());
+        }
+
+        responseBuilder.roles(user.getRoles());
+        responseBuilder.token(token);
+
+        return responseBuilder.build();
     }
 
 }

@@ -11,6 +11,7 @@ import org.flutterstudy.api.domain.user.entity.UserIdentifier;
 import org.flutterstudy.api.domain.user.enums.UserIdentifierType;
 import org.flutterstudy.api.domain.user.enums.UserRole;
 import org.flutterstudy.api.contracts.vo.EmailAddress;
+import org.flutterstudy.api.infra.repository.identifier.LongTypeIdentifier;
 
 import java.util.*;
 
@@ -52,33 +53,60 @@ public class User implements AggregateRoot {
         this.base.setAvatarFileId(fileData.getId());
     }
 
-    public static User of(UserBase base){
-        User user = new User();
-        user.base = base;
-        return user;
-    }
-
-    public static UserBuilder builder(Long primaryId, String birth){
-        return new UserBuilder(primaryId, birth);
-    }
-
     public Long getAvatarFileId() {
         return base.getAvatarFileId();
     }
 
     public void setName(UserName userName) {
+        getIdentifier(UserIdentifierType.USER_NAME).ifPresent((identifier -> identifier.setIsDropout(true)));
+        identifiers.add(new UserIdentifier(UserIdentifierType.USER_NAME, userName.getValue(), base.getPrimaryId()));
+        base.setUserName(userName.getValue());
+    }
+
+    void addIdentifier(UserIdentifier identifier){
         if(identifiers == null){
             identifiers = new HashSet<>();
         }
 
-        identifiers.forEach((identifier) -> {
-            if(identifier.equalsType(UserIdentifierType.USER_NAME)){
-                identifier.setIsDropout(true);
-            }
-        });
+        identifiers.add(identifier);
+    }
 
-        identifiers.add(new UserIdentifier(UserIdentifierType.USER_NAME, userName.getValue(), base.getPrimaryId()));
-        base.setUserName(userName.getValue());
+    Optional<UserIdentifier> getIdentifier(UserIdentifierType identifierType){
+        if(identifiers == null){
+            return Optional.empty();
+        }
+
+        for(UserIdentifier identifier : identifiers){
+            if(identifier.equalsType(identifierType) && !identifier.getIsDropout()){
+                return Optional.of(identifier);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    public String getName() {
+        return base.getUserName();
+    }
+
+    public EmailAddress getEmail() {
+        Optional<UserIdentifier> emailIdentifier = getIdentifier(UserIdentifierType.EMAIL);
+        if(emailIdentifier.isPresent()){
+            return new EmailAddress(emailIdentifier.get().getValue());
+        }
+
+        return null;
+    }
+
+    public static User of(UserBase base, Set<UserIdentifier> identifiers){
+        User user = new User();
+        user.base = base;
+        user.identifiers = identifiers;
+        return user;
+    }
+
+    public static UserBuilder builder(Long primaryId, String birth){
+        return new UserBuilder(primaryId, birth);
     }
 
     public static class  UserBuilder {

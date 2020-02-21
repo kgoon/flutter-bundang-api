@@ -4,12 +4,15 @@ import org.flutterstudy.api.contracts.vo.EmailAddress;
 import org.flutterstudy.api.contracts.vo.UserName;
 import org.flutterstudy.api.domain.user.User;
 import org.flutterstudy.api.domain.user.entity.UserBase;
+import org.flutterstudy.api.domain.user.entity.UserIdentifier;
 import org.flutterstudy.api.domain.user.enums.UserIdentifierType;
 import org.flutterstudy.api.repository.NotFoundEntityException;
 import org.flutterstudy.api.repository.UserRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
@@ -49,7 +52,9 @@ public class UserDataStoreRepository implements UserRepository {
 	@Override
 	public User get(Long userId) {
 		UserBase userBase = ofy().load().type(UserBase.class).id(userId).now();
+		List<UserIdentifier> identifiers = identifierRepository.findByPrimaryId(userId);
 
-		return User.of(userBase);
+		// TODO : check null safe
+		return User.of(userBase, identifiers.stream().collect(Collectors.toSet()));
 	}
 }

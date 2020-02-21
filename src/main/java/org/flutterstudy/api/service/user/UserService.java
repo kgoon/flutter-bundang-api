@@ -4,7 +4,7 @@ import org.flutterstudy.api.config.security.AuthenticationTokenProvider;
 import org.flutterstudy.api.contracts.dto.request.LoginRequest;
 import org.flutterstudy.api.contracts.dto.request.RegisterFormData;
 import org.flutterstudy.api.contracts.vo.UserName;
-import org.flutterstudy.api.contracts.dto.response.AuthenticationToken;
+import org.flutterstudy.api.contracts.dto.response.AuthResponse;
 import org.flutterstudy.api.domain.file.FileMetaData;
 import org.flutterstudy.api.domain.user.User;
 import org.flutterstudy.api.domain.user.entity.UserBase;
@@ -31,7 +31,7 @@ public class UserService {
 
     private final AuthenticationTokenProvider authTokenProvider;
 
-    public AuthenticationToken getAuthToken(LoginRequest loginRequest) {
+    public AuthResponse getAuthToken(LoginRequest loginRequest) {
         User user = userRepository.findByIdentifier(new EmailAddress(loginRequest.getEmail()))
             .orElseThrow(() -> new NotFoundMatchedUser("there is no information about this email. - " + loginRequest.getEmail()));
 

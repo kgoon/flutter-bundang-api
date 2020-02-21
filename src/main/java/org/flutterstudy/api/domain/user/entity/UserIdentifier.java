@@ -39,4 +39,12 @@ public class UserIdentifier {
     public void setIsDropout(boolean value) {
         this.dropout = value;
     }
+
+    public boolean getIsDropout() {
+        return dropout;
+    }
+
+    public String getValue() {
+        return idLiteral.split(DELIMITER)[1];
+    }
 }

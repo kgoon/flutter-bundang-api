@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.stereotype.Component;
 
 @Value
-@Component
 @ConstructorBinding
 @ConfigurationProperties("app.security")
 public class SecurityConfigure {
